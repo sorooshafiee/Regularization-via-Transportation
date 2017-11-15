@@ -1,0 +1,22 @@
+\documentclass{article}
+\usepackage{multirow}
+\usepackage[margin=0.5in]{geometry}
+\begin{document}
+\begin{table} [h] 
+\centering
+\caption{The average Area Under the Curve (AUC) scores
+evaluated on the test dataset over 100 trials.}
+\bgroup
+\def\arraystretch{1.1}
+\begin{tabular}{|l|cc|cc|cc|cc|}
+\cline{2-9}
+\multicolumn{1}{c|}{} & \multicolumn{2}{c|}{Linear} & \multicolumn{2}{c|}{Polynomial} &
+\multicolumn{2}{c|}{Laplacian} & \multicolumn{2}{c|}{Gaussian} \\ 
+\cline{2-9}
+\multicolumn{1}{c|}{} & RSVM & DRSVM & RSVM & DRSVM & RSVM & DRSVM & RSVM & DRSVM \\ \hline 
+1 vs 7& $ 98.98 \pm 0.23 $ & $ 98.9 \pm 0.24 $ \\ \hline 
+3 vs 8& $ 95.09 \pm 0.49 $ & $ 94.92 \pm 0.58 $ \\ \hline 
+4 vs 9& $ 94.98 \pm 0.52 $ & $ 94.84 \pm 0.63 $ \\ \hline 
+ \end{tabular}
+\egroup
+\end{table}\end{document}

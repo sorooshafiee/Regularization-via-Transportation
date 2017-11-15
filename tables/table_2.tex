@@ -1,0 +1,29 @@
+\documentclass{article}
+\usepackage{multirow}
+\usepackage[margin=0.5in]{geometry}
+\begin{document}
+\begin{table} [h] 
+\centering
+\caption{The average Area Under the Curve (AUC) scores
+evaluated on the test dataset over 100 trials.}
+\bgroup
+\def\arraystretch{1.1}
+\begin{tabular}{|l|c|cc|cc|cc|}
+\cline{3-8}
+\multicolumn{2}{c|}{} & \multicolumn{2}{c|}{$\ell_1$-regularizer} & 
+\multicolumn{2}{c|}{$\ell_2$-regularizer} & \multicolumn{2}{c|}{$\ell_\infty$-regularizer} \\ 
+\cline{2-8}
+\multicolumn{1}{c|}{} & SVM & RSVM & DRSVM & RSVM & DRSVM & RSVM & DRSVM \\ \hline 
+australian& $ 91.99 \pm 2.41 $ & $ 92.03 \pm 2.44 $ & $ 92.48 \pm 2.05 $ & $ 92.61 \pm 2.07 $ & $ 92.52 \pm 2.03 $ & $ 92.43 \pm 2.21 $ & $ 92.51 \pm 2.09 $ \\ \hline 
+blood transfusion& $ 74.57 \pm 3.66 $ & $ 74.16 \pm 3.66 $ & $ 75.56 \pm 3.53 $ & $ 75.33 \pm 3.56 $ & $ 75.57 \pm 3.48 $ & $ 75.77 \pm 3.5 $ & $ 75.37 \pm 3.36 $ \\ \hline 
+climate model& $ 93.65 \pm 3.52 $ & $ 94.12 \pm 3.69 $ & $ 93.98 \pm 3.7 $ & $ 94.13 \pm 3.45 $ & $ 94.13 \pm 3.65 $ & $ 93.61 \pm 3.46 $ & $ 93.72 \pm 3.59 $ \\ \hline 
+cylinder& $ 71.49 \pm 3.67 $ & $ 71.08 \pm 3.77 $ & $ 71.73 \pm 3.78 $ & $ 70.87 \pm 3.82 $ & $ 71.26 \pm 4.04 $ & $ 70.96 \pm 3.72 $ & $ 71.99 \pm 3.9 $ \\ \hline 
+heart& $ 89.95 \pm 3.58 $ & $ 89.79 \pm 3.62 $ & $ 89.9 \pm 3.59 $ & $ 90.32 \pm 3.36 $ & $ 90.19 \pm 3.48 $ & $ 90.26 \pm 3.47 $ & $ 90.05 \pm 3.48 $ \\ \hline 
+ionosphere& $ 85.07 \pm 5.19 $ & $ 90.33 \pm 4.08 $ & $ 90.4 \pm 4.29 $ & $ 91.47 \pm 3.63 $ & $ 90.8 \pm 4.09 $ & $ 85.99 \pm 4.11 $ & $ 87.13 \pm 7.06 $ \\ \hline 
+liver disorders& $ 60.52 \pm 0.0 $ & $ 61.15 \pm 0.76 $ & $ 61.83 \pm 0.59 $ & $ 61.21 \pm 0.27 $ & $ 61.56 \pm 0.51 $ & $ 61.13 \pm 0.42 $ & $ 61.74 \pm 0.56 $ \\ \hline 
+QSAR& $ 90.55 \pm 1.67 $ & $ 90.51 \pm 1.75 $ & $ 91.06 \pm 1.66 $ & $ 90.64 \pm 1.77 $ & $ 91.13 \pm 1.68 $ & $ 90.82 \pm 1.85 $ & $ 91.07 \pm 1.68 $ \\ \hline 
+splice& $ 92.05 \pm 0.0 $ & $ 92.99 \pm 0.37 $ & $ 92.94 \pm 0.09 $ & $ 92.56 \pm 0.05 $ & $ 92.53 \pm 0.06 $ & $ 92.01 \pm 0.07 $ & $ 92.47 \pm 0.09 $ \\ \hline 
+thoracic surgery& $ 60.18 \pm 8.11 $ & $ 60.43 \pm 6.8 $ & $ 63.7 \pm 6.39 $ & $ 64.42 \pm 6.38 $ & $ 64.19 \pm 6.12 $ & $ 63.28 \pm 5.71 $ & $ 63.58 \pm 6.02 $ \\ \hline 
+\end{tabular}
+\egroup
+\end{table}\end{document}

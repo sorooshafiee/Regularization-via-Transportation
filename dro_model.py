@@ -9,14 +9,14 @@ def svm(param, data):
     optimal = {}
     if len(param['d']) == 0:
         if len(param['kappa']) > 1 or float('inf') not in param['kappa']:
-            optimal.update(dist_rob_svm_with_support(param, data))
-        if float('Inf') in param['kappa']:
-            optimal.update(regularized_svm_with_support(param, data))
-    else:
-        if len(param['kappa']) > 1 or float('inf') not in param['kappa']:
             optimal.update(dist_rob_svm_without_support(param, data))
         if float('Inf') in param['kappa']:
             optimal.update(regularized_svm_without_support(param, data))
+    else:
+        if len(param['kappa']) > 1 or float('inf') not in param['kappa']:
+            optimal.update(dist_rob_svm_with_support(param, data))
+        if float('Inf') in param['kappa']:
+            optimal.update(regularized_svm_with_support(param, data))
 
     return optimal
 
@@ -55,15 +55,15 @@ def dist_rob_svm_with_support(param, data):
     var_p_minus = {}
     for i in range(row):
         for k in range(len(vec_d)):
-            var_p_plus[i, k] = model.addVar(vtype=grb.GRB.CONTINUOUS)
-            var_p_minus[i, k] = model.addVar(vtype=grb.GRB.CONTINUOUS)
+            var_p_plus[i,k] = model.addVar(vtype=grb.GRB.CONTINUOUS)
+            var_p_minus[i,k] = model.addVar(vtype=grb.GRB.CONTINUOUS)
     if pnorm == 1:
         slack_var_1 = {}
         slack_var_2 = {}
         for i in range(row):
             for j in range(col):
-                slack_var_1[i][j] = model.addVar(vtype=grb.GRB.CONTINUOUS)
-                slack_var_2[i][j] = model.addVar(vtype=grb.GRB.CONTINUOUS)
+                slack_var_1[i, j] = model.addVar(vtype=grb.GRB.CONTINUOUS)
+                slack_var_2[i, j] = model.addVar(vtype=grb.GRB.CONTINUOUS)
     elif pnorm == float('inf'):
         slack_var_1 = {}
         slack_var_2 = {}
@@ -81,7 +81,7 @@ def dist_rob_svm_with_support(param, data):
             1 - y_train[i] * grb.quicksum(var_w[j] * x_train[i, j]
                                           for j in range(col)) +
             grb.quicksum(
-                var_p_plus[i, k] * (vec_d[k] - mat_c[k,j] * x_train[i, j])
+                var_p_plus[i,k] * (vec_d[k] - mat_c[k,j] * x_train[i, j])
                 for j in range(col)
                 for k in range(len(vec_d))) <= var_s[i])
 
@@ -89,40 +89,40 @@ def dist_rob_svm_with_support(param, data):
             1 + y_train[i] * grb.quicksum(var_w[j] * x_train[i, j]
                                           for j in range(col)) +
             grb.quicksum(
-                var_p_minus[i][k] * (vec_d[k] - mat_c[k,j] * x_train[i, j])
+                var_p_minus[i,k] * (vec_d[k] - mat_c[k,j] * x_train[i, j])
                 for j in range(col)
                 for k in range(len(vec_d))) -
             all_kappa[0] * var_lambda <= var_s[i])
         if pnorm == 1:
             for j in range(col):
                 model.addConstr(
-                    grb.quicksum(var_p_plus[i, k] * mat_c[k,j]
+                    grb.quicksum(var_p_plus[i,k] * mat_c[k,j]
                                  for k in range(len(vec_d))) +
-                    y_train[i] * var_w[j] <= slack_var_1[i][j])
+                    y_train[i] * var_w[j] <= slack_var_1[i,j])
                 model.addConstr(
-                    grb.quicksum(-var_p_plus[i, k] * mat_c[k,j]
+                    grb.quicksum(-var_p_plus[i,k] * mat_c[k,j]
                                  for k in range(len(vec_d))) -
-                    y_train[i] * var_w[j] <= slack_var_1[i][j])
+                    y_train[i] * var_w[j] <= slack_var_1[i,j])
                 model.addConstr(
-                    grb.quicksum(var_p_minus[i][k] * mat_c[k,j]
+                    grb.quicksum(var_p_minus[i,k] * mat_c[k,j]
                                  for k in range(len(vec_d))) -
-                    y_train[i] * var_w[j] <= slack_var_2[i][j])
+                    y_train[i] * var_w[j] <= slack_var_2[i,j])
                 model.addConstr(
-                    grb.quicksum(-var_p_minus[i][k] * mat_c[k,j]
+                    grb.quicksum(-var_p_minus[i,k] * mat_c[k,j]
                                  for k in range(len(vec_d))) +
-                    y_train[i] * var_w[j] <= slack_var_2[i][j])
+                    y_train[i] * var_w[j] <= slack_var_2[i,j])
 
-            model.addConstr(grb.quicksum(slack_var_1[i][j]
+            model.addConstr(grb.quicksum(slack_var_1[i,j]
                                          for j in range(col)) <= var_lambda)
-            model.addConstr(grb.quicksum(slack_var_2[i][j]
+            model.addConstr(grb.quicksum(slack_var_2[i,j]
                                          for j in range(col)) <= var_lambda)
         elif pnorm == 2:
             model.addQConstr(
                 grb.quicksum(var_w[j] * var_w[j]
                              for j in range(col)) +
                 grb.quicksum(
-                    var_p_plus[i, k] * mat_c[k,j] * (
-                        var_p_plus[i, k] * mat_c[k,j] +
+                    var_p_plus[i,k] * mat_c[k,j] * (
+                        var_p_plus[i,k] * mat_c[k,j] +
                         2 * y_train[i] * var_w[j])
                     for j in range(col)
                     for k in range(len(vec_d))) <= var_lambda * var_lambda)
@@ -130,27 +130,27 @@ def dist_rob_svm_with_support(param, data):
                 grb.quicksum(var_w[j] * var_w[j]
                              for j in range(col)) +
                 grb.quicksum(
-                    var_p_minus[i][k] * mat_c[k,j] * (
-                        var_p_minus[i][k] * mat_c[k,j] -
+                    var_p_minus[i,k] * mat_c[k,j] * (
+                        var_p_minus[i,k] * mat_c[k,j] -
                         2 * y_train[i] * var_w[j])
                     for j in range(col)
                     for k in range(len(vec_d))) <= var_lambda * var_lambda)
         elif pnorm == float('Inf'):
             for j in range(col):
                 model.addConstr(
-                    grb.quicksum(var_p_plus[i, k] * mat_c[k,j]
+                    grb.quicksum(var_p_plus[i,k] * mat_c[k,j]
                                  for k in range(len(vec_d))) +
                     y_train[i] * var_w[j] <= var_lambda)
                 model.addConstr(
-                    grb.quicksum(-var_p_plus[i, k] * mat_c[k,j]
+                    grb.quicksum(-var_p_plus[i,k] * mat_c[k,j]
                                  for k in range(len(vec_d))) -
                     y_train[i] * var_w[j] <= var_lambda)
                 model.addConstr(
-                    grb.quicksum(var_p_minus[i][k] * mat_c[k,j]
+                    grb.quicksum(var_p_minus[i,k] * mat_c[k,j]
                                  for k in range(len(vec_d))) -
                     y_train[i] * var_w[j] <= var_lambda)
                 model.addConstr(
-                    grb.quicksum(-var_p_minus[i][k] * mat_c[k,j]
+                    grb.quicksum(-var_p_minus[i,k] * mat_c[k,j]
                                  for k in range(len(vec_d))) +
                     y_train[i] * var_w[j] <= var_lambda)
 

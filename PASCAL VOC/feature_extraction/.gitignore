@@ -1,0 +1,5 @@
+*.mexa64
+*.mat
+*.tar.gz
+*.bak
+.directory
